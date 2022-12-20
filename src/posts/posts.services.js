@@ -59,3 +59,11 @@ const patchPost = (req, res) => {
 const deletePost = (req, res) => {
 
 }
+
+module.exports = {
+    getAllPosts,
+    getPostById,
+    postNewPost,
+    patchPost,
+    deletePost,
+}
