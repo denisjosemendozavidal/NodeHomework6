@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+
 const authControllers = require('./auth.controllers')
 const jwtSecret = require('../../config').api.jwtSecret
 const mailer = require('../utils/mailer')
@@ -45,11 +46,29 @@ const postRecoveryToken = (req, res) => {
                 mailer.sendMail({
                     from: '<test.academlo@gmail.com>',
                     to: email,
-                    subject: 'Password Recovery',
-                    html: `<a href='${config.api.host}/api/v1/auth/recovery-password/${data.id}'>Password Recovery</a>`
+                    subject: 'Recuperación de Contraseña',
+                    html: `<a href='${config.api.host}/api/v1/auth/recovery-password/${data.id}'>Recuperar contraseña</a>`
                 })
             }
-            res.status(200).json({message: 'Email sent!, Check your inbox'})
+            res.status(200).json({message: 'Email sended!, Check your inbox'})
+        })
+        .catch((err) => {
+            res.status(400).json({message: err.message})
+        })
+}
+
+const patchPassword = (req, res) => {
+    const id = req.params.id 
+    const {password} = req.body 
+
+    authControllers.changePassword(id, password)
+        .then(data => {
+            console.log('service:',data)
+            if(data){
+                res.status(200).json({message: 'Password updated succesfully'})
+            } else {
+                res.status(400).json({message: 'URL expired'})
+            }
         })
         .catch((err) => {
             res.status(400).json({message: err.message})
@@ -57,8 +76,8 @@ const postRecoveryToken = (req, res) => {
 }
 
 
-
 module.exports = {
     postLogin,
-    postRecoveryToken
+    postRecoveryToken,
+    patchPassword
 }

@@ -2,8 +2,6 @@ const userControllers = require('./users.controllers')
 const mailer = require('../utils/mailer')
 
 
-//Get and post for any user
-
 const getAllUsers = (req, res) => {
     userControllers.findAllUsers()
         .then((data) => {
@@ -42,15 +40,15 @@ const getMyUser = (req, res) => {
 
 
 const postUser = (req, res) => {
-    const {firstName, lastName, email, password, gender, birthday} = req.body
-    userControllers.createUser({firstName, lastName, email, password, gender, birthday})
+    const {firstName, lastName, email,nickName, password, gender, birthday} = req.body
+    userControllers.createUser({firstName, lastName, email, nickName, password,gender, birthday})
         .then(async(data) => {
             await mailer.sendMail({
-                from: '<dmendoza.isg@gmail.com>',
+                from: '<test.academlo@gmail.com>',
                 to: data.email,
-                subject: `Welcome ${data.firstName}`,
-                html: `<h1>Welcome to our app ${data.firstName}</h1> <a href="#" class="myButton">turquoise</a> `,
-                text: 'Glad to see you here',
+                subject: `Bienvenido ${data.firstName}`,
+                html: `<h1>Bienvenido a nuestra app ${data.firstName}</h1> <a href="#" class="myButton">turquoise</a> `,
+                text: 'Que gusto verte por aqui',
                 
             })
             res.status(201).json(data)
@@ -67,7 +65,7 @@ const postUser = (req, res) => {
         })
 }
 
-// Patch only for admins
+
 const patchUser = (req, res) => {
     const id = req.params.id 
     const {firstName, lastName, email, gender, birthday, role, status} = req.body
@@ -97,7 +95,7 @@ const patchMyUser = (req, res) => {
         })
 }
 
-//Delete only for admins 
+
 const deleteUser = (req, res) => {
     const id = req.params.id 
     userControllers.deleteUser(id)
