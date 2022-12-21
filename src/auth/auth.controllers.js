@@ -1,5 +1,6 @@
 const uuid = require('uuid')
 const { findUserByEmail, updateUser } = require('../users/users.controllers')
+const { findUserByEmail , updateUser} = require('../users/users.controllers')
 const { comparePassword, hashPassword } = require('../utils/crypto')
 
 const RecoveryPassword = require('../models/recoveryPasswords.models')
@@ -13,7 +14,7 @@ const checkUsersCredentials = async (email, password) => {
         } 
         return null
     } catch (error) {
-        return error
+        return null
     }
 }
 
@@ -30,20 +31,28 @@ const createRecoveryToken = async (email) => {
     } 
 } 
 
-const changePassword = async (id, password) => {
-    const recovery = await RecoveryPassword.findOne({
-        where: {id: id, used: false}
+const changePassword = async (tokenId, newPassword) => {
+    const recoveryData = await RecoveryPassword.findOne({
+        where: {
+            id: tokenId,
+            used: false
+        }
     })
-    console.log(recovery)
-    if(recovery){
-        await recovery.update({used: true})
-        const data = await updateUser(recovery.userId, {
-            password: hashPassword(password)
+    if(recoveryData){
+        await RecoveryPassword.update({used: true}, {
+            where: {
+                id: tokenId
+            }
+        })
+        const data = await updateUser(recoveryData.userId, {
+            password: hashPassword(newPassword)
         })
         return data
+    } else {
+        return false
     }
-    return false
 }
+
 
 module.exports = {
     checkUsersCredentials,

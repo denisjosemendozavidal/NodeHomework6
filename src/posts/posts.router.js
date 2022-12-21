@@ -1,4 +1,5 @@
 const router = require('express').Router()
+
 const postServices = require('./posts.services')
 const passportJWT = require('../middlewares/auth.middleware')
 
@@ -10,5 +11,6 @@ router.route('/:id')
     .get(postServices.getPostById)
     .patch(passportJWT.authenticate('jwt', {session: false}), postServices.patchPost)
     .delete(passportJWT.authenticate('jwt', {session: false}), postServices.deletePost)
+
 
 module.exports = router
