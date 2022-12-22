@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1', followRouter)
-app.use('/api/vi/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
+app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/vi/posts', postRouter)
