@@ -76,5 +76,5 @@ module.exports = {
     getPostById,
     postNewPost,
     patchPost,
-    deletePost,
+    deletePost
 }

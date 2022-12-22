@@ -1,5 +1,4 @@
 const uuid = require('uuid')
-const { findUserByEmail, updateUser } = require('../users/users.controllers')
 const { findUserByEmail , updateUser} = require('../users/users.controllers')
 const { comparePassword, hashPassword } = require('../utils/crypto')
 
@@ -27,7 +26,7 @@ const createRecoveryToken = async (email) => {
         })
         return data
     } catch (error) {
-        return error
+        return null
     } 
 } 
 
@@ -49,9 +48,10 @@ const changePassword = async (tokenId, newPassword) => {
         })
         return data
     } else {
-        return false
-    }
-}
+        return error
+    } 
+} 
+
 
 
 module.exports = {
