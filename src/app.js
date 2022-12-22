@@ -1,9 +1,9 @@
 
 const express = require('express')
 const cors = require('cors')
-const swaggerUI = require('swagger-ui-express')
+//const swaggerUI = require('swagger-ui-express')
 
-const swaggerDoc = require('./swagger.json')
+//const swaggerDoc = require('./swagger.json')
 const config = require('../config')
 const db = require('./utils/database')
 const initModels = require('./models/initModels')
