@@ -1,14 +1,16 @@
 
 const express = require('express')
 const cors = require('cors')
+const swaggerUI = require('swagger-ui-express')
 
-
+const swaggerDoc = require('./swagger.json')
 const config = require('../config')
 const db = require('./utils/database')
 const initModels = require('./models/initModels')
 const userRouter = require('./users/users.router')
 const authRouter = require('./auth/auth.router')
 const postRouter = require('./posts/posts.router')
+const followRouter = require('./follows/follows.router')
 
 
 
@@ -41,6 +43,7 @@ app.get('/', (req, res) => {
     })
 })
 
+app.use('/api/v1', followRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/vi/posts', postRouter)
